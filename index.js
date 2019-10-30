@@ -1,49 +1,67 @@
-import  React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+import { Input } from '@material-ui/core';
 
-class App extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-            saeae: null,
-        };
+class App extends React.Component{
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      kaupunki: "turku,fi",
+      maa: "fi",
+      sijainti: "",
+      lampotilanyt: 0,
+      korkeinlampotila: 0,
+      matalinlampotila: 0,
+      ilmanpaine: 0,
+      saa: "",
     }
+  }
 
-    async componentDidMount() {
-        //const URL = `api.openweathermap.org/data/2.5/weather?q=Turku&APPID=49c9ece9c127daaa37a7aff3e8d71f34&units=metric`;
-        const URL = 'http://dataservice.accuweather.com/currentconditions/v1/134768?apikey=X5uGAfUIAMtcjZ1rW385qKRupJqKooXA%20'; 
-        const response = await fetch(URL);
-        const data = await response.json();
-        const myData = JSON.stringify(data);
-        this.setState({
-            saeae: myData.results
-        });
-    }
+  componentDidMount(){
 
-    onPress(){
-        console.log(this.state.saeae);
-    }
+    const URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.kaupunki}&APPID=49c9ece9c127daaa37a7aff3e8d71f34&units=metric&lang=fi`;
 
-    render() {
-        return(
-            <div>
-                <button onClick={this.onPress}>xd</button>
-                <div>
-                    {this.state.saeae}
-                </div>
-            </div>
-        )
-    }
+    axios.get(URL).then(response => {
+      console.log(response.data.main.temp);
+      console.log(response.data.weather[0].description);
+      this.setState({
+        lampotilanyt: response.data.main.temp,
+        korkeinlampotila: response.data.main.temp_max,
+        matalinlampotila: response.data.main.temp_min,
+        ilmanpaine: response.data.main.pressure,
+        saa: response.data.weather[0].description,
+      })
+    })    
+  }
+
+  annaKaupunki(e){
+    const value = e.currentTarget.value;
+    this.setState({
+      kaupunki: value,
+    })
+  }
+
+  render(){
+    return(
+      <div>
+        <div><Input
+        onChange={this.annaKaupunki}
+        placeholder="Anna kaupunki" />
+        </div>
+        <h1>Sää: {this.state.saa}</h1>
+        <h1>Lämpötila nyt: {this.state.lampotilanyt} C°</h1>
+        <h1>Vuorokauden korkein lämpötila: {this.state.korkeinlampotila} C°</h1>
+        <h1>Vuorokauden matalin lämpötila: {this.state.matalinlampotila} C°</h1>
+        <h1>Ilmanpaine nyt: {this.state.ilmanpaine}hPa</h1>
+      </div>
+    );
+  }
 }
 
 ReactDOM.render(
-    <App />,
-    document.getElementById('root')
+  <App />,
+  document.getElementById('root')
 );
-
-
-
-//Error: Objects are not valid as a React child (found: object with keys {coord, weather, base, main, visibility, wind, snow, clouds, dt, sys, timezone, id, name, cod}). If you meant to render a collection of children, use an array instead.
-//in div (at src/index.js:27)
-//in div (at src/index.js:26)
-//in App (at src/index.js:36)
