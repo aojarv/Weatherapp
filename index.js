@@ -25,13 +25,17 @@ import elevenn from './icons/11n.png'
 import thirteenn from './icons/13n.png'
 import fiftyn from './icons/50n.png'
 
-//const Kuva = (props) => {
-    //const kuva = `./icons/${props.props}.png`;
-    //console.log(kuva);
-    //return(
-        //<img src={kuva}/>
-    //)
-//}
+const Kuva = (props) => {
+  const memes = props.pic;
+  const kuvaa = `./icons/${memes}.png`;
+  const kuvaaa = kuvaa.replace('"', '');
+  const kuva1 = kuvaaa.replace('"', '');
+  console.log(kuvaa);
+  console.log(props.pic);
+  return(
+      <img src={kuvaa} alt=""/>
+  )
+}
 
 class App extends React.Component{
   
@@ -45,7 +49,7 @@ class App extends React.Component{
       ilmanpaine: "",
       kosteus: "",
       saa: "",
-      icon: "",
+      icon: ``,
     };
     this.onEnter = this.onEnter.bind(this);
     this.annaKaupunki = this.annaKaupunki.bind(this);
@@ -60,6 +64,8 @@ class App extends React.Component{
       console.log(response.data.main.temp);
       console.log(response.data.weather[0].description);
       console.log(response.data.weather[0].icon)
+      var obj = response.data.weather[0].icon;
+      var ikoni = JSON.stringify(obj);
       this.setState({
         lampotilanyt: response.data.main.temp,
         korkeinlampotila: response.data.main.temp_max,
@@ -67,9 +73,9 @@ class App extends React.Component{
         ilmanpaine: response.data.main.pressure,
         kosteus: response.data.main.humidity,
         saa: response.data.weather[0].description,
-        icon: response.data.weather[0].icon,
+        icon: ikoni,
       })
-    })    
+    })
   }
 
   
@@ -83,20 +89,11 @@ class App extends React.Component{
 
   render(){
 
-    const Kuva = (props) => {
-        const kuva = `./icons/${props.pic}.png`;
-        console.log(kuva);
-        console.log(props.pic);
-        return(
-            <img src={kuva}/>
-        )
-    }
-
     return(
         <>
         <header>
             <div>
-                <img src={logo}/>
+                <img src={logo} alt=""/>
             </div>
         </header>
         <body>
