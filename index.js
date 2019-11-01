@@ -5,6 +5,10 @@ import axios from 'axios';
 import logo from './logo.png';
 import { Input, Button } from '@material-ui/core';
 
+/** Hakee API-tarjoajan nettisivulta kutakin säätilaa vastaavat ikonit ja palauttaa aina hetkellistä säätilaa vastaavan kuvan.
+ * 
+ */
+
 const Kuva = (props) => {
   const kuva = `http://openweathermap.org/img/wn/${props.pic}@2x.png`;
   return(
@@ -32,6 +36,10 @@ class App extends React.Component{
 
   }
 
+  /** Kun klikataan nuolta tekstikentän vieressä, hakee ohjelma tekstikenttään kirjoitetun kaupungin säätiedot ja tallentaa ne stateen.
+   * 
+   */
+
   onEnter(){
 
     const URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.kaupunki}&APPID=49c9ece9c127daaa37a7aff3e8d71f34&units=metric&lang=fi`;
@@ -52,7 +60,10 @@ class App extends React.Component{
     })
   }
 
-  
+  /** Tallentaa tekstikenttään kirjoitetun kaupungin this.state.kaupunki -muuttujaan
+   * 
+   * @param {*} e 
+   */
 
   annaKaupunki(e){
     const value = e.currentTarget.value;
