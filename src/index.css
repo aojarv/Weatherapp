@@ -1,0 +1,12 @@
+body{
+    font-size: 30;
+    background-color: lightblue;
+    padding: 30px;
+    align-content: center;
+    font-family: 'Anton', sans-serif;
+}
+
+header{
+    background-color: red;
+    height: 150px;
+}
