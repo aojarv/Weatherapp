@@ -5,6 +5,7 @@ import axios from 'axios';
 import logo from './logo.png';
 import { Input, Button } from '@material-ui/core';
 
+
 /** Hakee API-tarjoajan nettisivulta kutakin säätilaa vastaavat ikonit ja palauttaa aina hetkellistä säätilaa vastaavan kuvan.
  * 
  */
@@ -41,8 +42,8 @@ class App extends React.Component{
    */
 
   onEnter(){
-
-    const URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.kaupunki}&APPID=49c9ece9c127daaa37a7aff3e8d71f34&units=metric&lang=fi`;
+    console.log(process.env.REACT_APP_API_KEY)
+    const URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.kaupunki}&APPID=${process.env.REACT_APP_API_KEY}&units=metric&lang=fi`;
 
     axios.get(URL).then(response => {
       var obj = response.data.weather[0].icon;
